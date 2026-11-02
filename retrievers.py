@@ -86,3 +86,75 @@ if __name__ == "__main__":
                 f"| Score: {result['score']:.4f} "
                 f"| Topic: {result['topic']}"
             )
+
+
+
+import numpy as np
+from sentence_transformers import SentenceTransformer
+
+
+class EmbeddingRetriever:
+    """Multilingual semantic retrieval using E5 embeddings."""
+
+    def __init__(
+        self,
+        passages,
+        model_name="intfloat/multilingual-e5-small",
+    ):
+        self.passages = passages.reset_index(drop=True).copy()
+
+        self.model = SentenceTransformer(
+            model_name,
+            device="cpu",
+        )
+
+        # E5 uses the passage prefix for documents.
+        passage_texts = [
+            f"passage: {text}"
+            for text in self.passages["text"].tolist()
+        ]
+
+        # Encode documents once; reuse these vectors for every query.
+        self.passage_embeddings = self.model.encode(
+            passage_texts,
+            convert_to_numpy=True,
+            normalize_embeddings=True,
+            show_progress_bar=True,
+        )
+
+    def search(self, query: str, top_k: int = 3) -> list[dict]:
+        """Return passages ranked by cosine similarity."""
+        if not query.strip() or top_k <= 0:
+            return []
+
+        # E5 distinguishes queries from passages using prefixes.
+        query_embedding = self.model.encode(
+            [f"query: {query}"],
+            convert_to_numpy=True,
+            normalize_embeddings=True,
+            show_progress_bar=False,
+        )[0]
+
+        # Normalized embeddings allow dot product to equal cosine similarity.
+        scores = self.passage_embeddings @ query_embedding
+
+        ranked_indices = np.argsort(-scores, kind="stable")[
+            :min(top_k, len(scores))
+        ]
+
+        results = []
+
+        for index in ranked_indices:
+            passage = self.passages.iloc[index]
+
+            results.append(
+                {
+                    "passage_id": passage["passage_id"],
+                    "topic": passage["topic"],
+                    "text": passage["text"],
+                    "score": float(scores[index]),
+                }
+            )
+
+        return results
+
