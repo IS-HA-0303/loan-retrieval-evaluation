@@ -158,3 +158,108 @@ class EmbeddingRetriever:
 
         return results
 
+
+
+
+def clean_asr_query(query: str) -> str:
+    """Normalize selected ASR errors and Hinglish phrases."""
+    text = query.lower().strip()
+
+    replacements = {
+        r"\bfor\s+closure\b": "foreclosure",
+        r"\bforclosure\b": "foreclosure",
+        r"\bforeclouser\b": "foreclosure",
+        r"\bforecloser\b": "foreclosure",
+        r"\bmandet\b": "mandate",
+        r"\bcharj\b": "charge",
+        r"\bcharjes\b": "charges",
+        r"\bcharg\b": "charge",
+        r"\bstatment\b": "statement",
+        r"\bstatments\b": "statements",
+        r"\bsertificate\b": "certificate",
+        r"\bpaise\s+kat\s+gaya\b": "money deducted",
+        r"\bpayment\s+reflect\s+nahi\s+hua\b": "payment not reflected",
+    }
+
+    for pattern, replacement in replacements.items():
+        text = re.sub(pattern, replacement, text)
+
+    # Normalize the observed part-payment procedural query.
+    if (
+        "principal me extra payment request kaha dalu" in text
+    ):
+        text = text.replace(
+            "principal me extra payment request kaha dalu",
+            "how to submit a part payment request",
+        )
+
+    return text
+
+
+
+
+class CleanedEmbeddingRetriever:
+    """Apply conservative query cleanup before E5 retrieval."""
+
+    def __init__(self, base_retriever):
+        self.base_retriever = base_retriever
+
+    def search(self, query: str, top_k: int = 3) -> list[dict]:
+        cleaned_query = clean_asr_query(query)
+        return self.base_retriever.search(cleaned_query, top_k)
+
+
+
+class HybridRetriever:
+    """Combine BM25 and E5 rankings using Reciprocal Rank Fusion."""
+
+    def __init__(self, bm25_retriever, embedding_retriever, rrf_k=60):
+        self.bm25_retriever = bm25_retriever
+        self.embedding_retriever = embedding_retriever
+        self.rrf_k = rrf_k
+
+    def search(self, query: str, top_k: int = 3) -> list[dict]:
+        if not query.strip() or top_k <= 0:
+            return []
+
+        # Retrieve enough candidates from each system for fusion.
+        candidate_k = min(
+            len(self.embedding_retriever.passages),
+            max(top_k, 10),
+        )
+
+        bm25_results = self.bm25_retriever.search(
+            query, top_k=candidate_k
+        )
+        e5_results = self.embedding_retriever.search(
+            query, top_k=candidate_k
+        )
+
+        # Store each passage once and accumulate its reciprocal ranks.
+        fused = {}
+
+        for results in (bm25_results, e5_results):
+            for rank, result in enumerate(results, start=1):
+                passage_id = result["passage_id"]
+
+                if passage_id not in fused:
+                    fused[passage_id] = {
+                        "passage_id": passage_id,
+                        "topic": result["topic"],
+                        "text": result["text"],
+                        "score": 0.0,
+                    }
+
+                fused[passage_id]["score"] += (
+                    1.0 / (self.rrf_k + rank)
+                )
+
+        ranked = sorted(
+            fused.values(),
+            key=lambda item: item["score"],
+            reverse=True,
+        )
+
+        return ranked[:top_k]
+
+
