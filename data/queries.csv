@@ -1,0 +1,81 @@
+query_id,query,relevant_passage_id,query_type
+q001,When is my EMI due each month?,P01,english_clean
+q002,Where can I check my next EMI date?,P02,english_clean
+q003,What should I do before my EMI is deducted?,P03,english_clean
+q004,My EMI has not been deducted today. What should I do?,P04,english_clean
+q005,Can I repay my loan using an auto-debit mandate?,P05,english_clean
+q006,How can I make a loan repayment online?,P06,english_clean
+q007,What should I do if money was debited but my loan payment is not showing?,P07,english_clean
+q008,Can I pay my EMI in cash at a branch?,P08,english_clean
+q009,What does a bounced EMI mean?,P09,english_clean
+q010,How much is the fee for a failed EMI debit?,P10,english_clean
+q011,What should I do after my EMI payment fails?,P11,english_clean
+q012,What are the foreclosure charges?,P12,english_clean
+q013,How can I obtain a foreclosure statement?,P13,english_clean
+q014,When is my loan officially considered closed?,P14,english_clean
+q015,What is the part-payment charge?,P15,english_clean
+q016,How do I request a part-payment?,P16,english_clean
+q017,How does part-payment affect my outstanding principal?,P17,english_clean
+q018,Where can I download my loan account statement?,P18,english_clean
+q019,How can I obtain an interest certificate?,P19,english_clean
+q020,What are your customer support hours?,P21,english_clean
+q021,Mera EMI har mahine kis date ko katega?,P01,hinglish
+q022,Next EMI ki date kahan check kar sakta hoon?,P02,hinglish
+q023,EMI cutne se pehle bank account mein kya karna chahiye?,P03,hinglish
+q024,Aaj EMI nahi kati toh mujhe kya karna chahiye?,P04,hinglish
+q025,Auto debit mandate se loan ka payment ho sakta hai kya?,P05,hinglish
+q026,Online loan repayment kaise karun?,P06,hinglish
+q027,"Bank se paise kat gaye but loan account mein payment show nahi ho rahi, kya karun?",P07,hinglish
+q028,Branch mein cash deke EMI pay kar sakte hain kya?,P08,hinglish
+q029,EMI bounce hone ka matlab kya hai?,P09,hinglish
+q030,EMI bounce hone par kitna charge lagega?,P10,hinglish
+q031,EMI fail ho gayi ab payment ke liye kya karna hoga?,P11,hinglish
+q032,Loan jaldi band karne ka kitna charge lagega?,P12,hinglish
+q033,Foreclosure statement kaise milega?,P13,hinglish
+q034,Loan close kab maana jayega?,P14,hinglish
+q035,Part payment karne par kitna charge lagega?,P15,hinglish
+q036,Loan mein extra principal pay karne ke liye request kaise daalun?,P16,hinglish
+q037,Part payment se outstanding principal kam hota hai kya?,P17,hinglish
+q038,Loan statement download kahan se karun?,P18,hinglish
+q039,Interest certificate kaise nikal sakta hoon?,P19,hinglish
+q040,Customer care Sunday ko khula rehta hai kya?,P21,hinglish
+q041,mera emi har month 5 tarik ko katega na,P01,asr_noisy
+q042,next emi date kaha check karu haan matlab,P02,asr_noisy
+q043,emi katne se pehle account me balance rakhna hai na,P03,asr_noisy
+q044,aaj emi nahi kata bank statement me kya dekhna hai,P04,asr_noisy
+q045,auto debit mandet active hona chahiye kya,P05,asr_noisy
+q046,online portal se payment kaise karna hai punctuation nahi hai,P06,asr_noisy
+q047,paise kat gaya but loan me payment reflect nahi hua,P07,asr_noisy
+q048,branch pe cash jama karke emi bhar sakte hai kya,P08,asr_noisy
+q049,emi bounce matlab payment fail hua na,P09,asr_noisy
+q050,failed emi ka bounce charj kitna hai,P10,asr_noisy
+q051,emi fail ho gaya ab retry pakka hoga kya,P11,asr_noisy
+q052,for closure charges kitne hai,P12,asr_noisy
+q053,foreclouser statement kaha se milega,P13,asr_noisy
+q054,loan close karne ka request de diya to band ho gaya kya,P14,asr_noisy
+q055,part payment charjes kitna hai,P15,asr_noisy
+q056,principal me extra payment request kaha dalu,P16,asr_noisy
+q057,part payment se loan ka baki principal kam hota hai kya,P17,asr_noisy
+q058,loan statment download kaha se karna hai,P18,asr_noisy
+q059,interest sertificate kaise milega,P19,asr_noisy
+q060,customer care timing kya hai monday se saturday,P21,asr_noisy
+q061,Can I apply for a home loan with Nivara Finance?,,out_of_scope
+q062,What is the interest rate for a new personal loan?,,out_of_scope
+q063,What is the minimum credit score required for loan approval?,,out_of_scope
+q064,What is the maximum loan amount I can borrow?,,out_of_scope
+q065,How long does a new loan application take to get approved?,,out_of_scope
+q066,Do you offer student education loans?,,out_of_scope
+q067,What documents are required to apply for a new loan?,,out_of_scope
+q068,Which cities have Nivara Finance branches?,,out_of_scope
+q069,Can I transfer my existing loan from another lender to you?,,out_of_scope
+q070,What is the interest rate for a car loan?,,out_of_scope
+q071,Can I change my EMI due date to the 15th?,,out_of_scope
+q072,Can you waive my foreclosure charge?,,out_of_scope
+q073,How many days does it take to approve a part-payment request?,,out_of_scope
+q074,Can I pay my loan in US dollars?,,out_of_scope
+q075,What is the penalty interest rate for a late payment?,,out_of_scope
+q076,Can I get a loan against my property?,,out_of_scope
+q077,Do you provide loans to self-employed applicants?,,out_of_scope
+q078,Can I increase my loan tenure after disbursement?,,out_of_scope
+q079,What is the current status of my loan application?,,out_of_scope
+q080,Can I speak directly to the company CEO?,,out_of_scope
