@@ -2,13 +2,13 @@
 
 ## 1. Project Overview
 
-This project evaluates retrieval methods for a fictional loan-servicing voice agent. The goal is to retrieve the correct knowledge-base passage when customers ask questions in English, Hinglish, or noisy speech-recognition text.
+This project evaluates retrieval methods for a fictional loan-servicing voice agent. The assignned goal is to retrieve the correct knowledge-base passage when customers ask questions in English, Hinglish, or noisy speech-recognition text.
 
 Three retrieval systems are compared:
 
 - **BM25:** Lexical retrieval based on matching query and passage terms.
 - **Multilingual E5:** Semantic retrieval using text embeddings.
-- **Hybrid BM25 + E5:** Combines lexical and semantic retrieval signals.
+- **Hybrid BM25 + E5:** Combines lexical and semantic retrieval signals. (chosen by me)
 
 The evaluation measures retrieval quality, CPU latency, retrieval failures, and the ability to refuse questions that cannot be answered from the knowledge base.
 
@@ -18,7 +18,7 @@ The objective is to make an evidence-based engineering decision rather than assu
 
 The dataset represents a fictional loan-servicing company named Nivara Finance. All company policies, charges, and servicing information are synthetic.
 
-ChatGPT was used to assist in drafting the knowledge-base passages and customer queries. The generated content was organized into CSV files for evaluation.
+I used ChatGPT to assist me in drafting the knowledge-base passages and customer queries. The generated content was organized into CSV files for evaluation.
 
 ### Knowledge base
 
@@ -51,8 +51,6 @@ The dataset deliberately includes similar topics, such as foreclosure charges an
 ### AI usage and data validation
 
 ChatGPT assisted with drafting synthetic passages and candidate queries. The dataset is intended for experimentation, not as verified financial guidance.
-
-Before submission, the dataset should be checked for valid CSV structure, unique IDs, correct passage references, appropriate query categories, and empty relevance labels for out-of-scope queries. Document the actual corrections made during review rather than claiming changes that were not performed.
 
 ## 3. Architecture and Execution Flow
 
@@ -98,14 +96,15 @@ flowchart TD
 2. **Load the data:** `data_loader.py` reads the CSV files and validates the required data.
 3. **Build BM25:** `BM25Retriever` ranks passages using lexical matching.
 4. **Build multilingual E5:** `EmbeddingRetriever` encodes passages and queries into embeddings and ranks passages by semantic similarity.
-5. **Build the hybrid retriever:** `HybridRetriever` combines lexical and semantic retrieval according to the implementation in `retrievers.py`.
+5. **Build the hybrid retriever:** `HybridRetriever` combines lexical and semantic retrieval as per the implementation in `retrievers.py`.
 6. **Evaluate retrieval:** `evaluate.py` measures Recall@1, Recall@3, and MRR for each system and query category.
 7. **Measure latency:** The hybrid retriever's warm-search p95 CPU latency is measured and compared with the 150 ms target.
 8. **Select a refusal threshold:** A reproducible, stratified half of the queries is used to select a score threshold by maximizing balanced accuracy.
 9. **Evaluate refusal behaviour:** The selected threshold is evaluated on the held-out half of the queries.
 10. **Investigate failures:** Queries whose expected passages are missing from the top three results are examined to identify weaknesses in retrieval.
 
-The implementation evaluates retrieval; it does not implement the complete speech-recognition, LLM response-generation, or text-to-speech pipeline.
+My implementation evaluates retrieval
+I have not worked on implementing the complete speech-recognition, LLM response-generation, or text-to-speech pipeline.
 
 ## 4. Evaluation Metrics
 
@@ -211,7 +210,7 @@ These are hypotheses based on the query wording and returned passages, not confi
 
 The hybrid approach was intended to combine the strengths of lexical and semantic retrieval. However, it did not outperform the individual systems consistently and achieved the lowest overall Recall@1 and MRR in this run.
 
-The next experiment would investigate the score-fusion method, including whether lexical and semantic scores require normalization before combination. This is a proposed improvement, not a feature claimed to have been implemented.
+The next experiment would investigate the score-fusion method, including whether lexical and semantic scores require normalization before combination. This is a proposed improvement, not a feature that i had implemented.
 
 ## 9. Project Limitations
 
@@ -223,8 +222,6 @@ The next experiment would investigate the score-fusion method, including whether
 6. Retrieval scores are not calibrated probabilities of answer correctness.
 7. CPU latency results depend on the machine and software environment.
 8. No production deployment or real customer-data validation has been performed.
-
-The results should therefore be treated as evidence from a controlled prototype, not as proof of production readiness.
 
 ## 10. Setup and Execution
 
@@ -329,4 +326,3 @@ The refusal evaluation also demonstrates the difficulty of distinguishing answer
 
 The next steps are to investigate hybrid score fusion, expand the evaluation dataset, improve refusal reliability, and test against a more representative set of customer queries.
 
-**This project is an experimental retrieval evaluation prototype, not a production-ready financial customer-support system.**
